@@ -194,7 +194,7 @@ const ProductModal = ({ onClose, onDone }) => {
         </div>
         <p style={{ color: '#8880B0', fontSize: 14, marginBottom: 32, lineHeight: 1.7 }}>
           Carica fino a 3 foto del prodotto o incolla il link della scheda ecommerce.<br />
-          Più alta è la risoluzione, migliore sarà il risultato AI.
+          Più alta è la risoluzione, migliore sarà il risultato.
         </p>
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr', gap: 20, alignItems: 'center' }}>
@@ -225,7 +225,7 @@ const ProductModal = ({ onClose, onDone }) => {
 
         <button style={{ ...DS.primaryBtn, marginTop: 32, opacity: file || url ? 1 : 0.4, width: '100%', padding: '14px', fontSize: 15 }}
         disabled={!file && !url} onClick={handleDone}>
-          Analizza prodotto con AI →
+          Analizza con AI →
         </button>
       </div>
     </div>);
@@ -272,7 +272,7 @@ const ProcessingModal = ({ productData, onDone }) => {
       <div style={{ ...DS.modalBox, maxWidth: 680 }}>
         <div style={DS.modalHeader}>
           <h3 style={{ fontSize: 22, fontWeight: 800 }}>
-            {done ? '✓ Prodotto analizzato' : 'AI analizza il tuo prodotto…'}
+            {done ? '✓ Prodotto analizzato' : 'Sto analizzando il tuo prodotto…'}
           </h3>
         </div>
 
@@ -310,7 +310,7 @@ const ProcessingModal = ({ productData, onDone }) => {
             }
             {revealed.colors &&
             <div style={{ animation: 'fadeUp 0.4s ease both' }}>
-                <div style={DS.extractLabel}>Palette colori dominanti</div>
+                <div style={DS.extractLabel}>Colori dominanti</div>
                 <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 4 }}>
                   {EXTRACTED.colors.map((c) =>
                 <div key={c} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
@@ -323,7 +323,7 @@ const ProcessingModal = ({ productData, onDone }) => {
             }
             {revealed.copy &&
             <div style={{ animation: 'fadeUp 0.4s ease both' }}>
-                <div style={DS.extractLabel}>Copy AI suggerito</div>
+                <div style={DS.extractLabel}>Parole chiave</div>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginTop: 4 }}>
                   {EXTRACTED.copy.map((c) =>
                 <span key={c} style={{ background: 'rgba(91,79,207,0.15)', border: '1px solid rgba(91,79,207,0.3)', borderRadius: 100, padding: '3px 10px', fontSize: 11, color: '#C4BFFF', fontWeight: 600 }}>{c}</span>
@@ -351,7 +351,7 @@ const ProcessingModal = ({ productData, onDone }) => {
             }
             <div style={{ display: 'flex', gap: 12 }}>
               <button style={{ ...DS.primaryBtn, flex: 1, padding: '13px', fontSize: 14 }} onClick={() => onDone(draftText)}>
-                {editMode ? 'Conferma testo — continua →' : 'Sì, va bene — genera'}
+                {editMode ? 'Conferma testo — continua →' : 'Sì, va bene — continua →'}
               </button>
               {!editMode &&
               <button style={{ ...DS.ghostBtn, flex: 1, padding: '13px', fontSize: 14 }} onClick={() => setEditMode(true)}>
