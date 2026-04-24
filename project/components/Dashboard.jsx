@@ -10,8 +10,8 @@ const MOCK_PRODUCTS = [
   copy: ['Energia immediata', 'Zero zuccheri', 'Gusto intenso', 'Formato 250ml'],
   thumb: null,
   campaigns: [
-  { id: 'c1', name: 'Lancio Spring 2026', style: 'Hyper Motion', dest: 'TikTok & Reels', status: 'completed', outputs: 5, date: '20 Apr' },
-  { id: 'c2', name: 'Meta Feed Promo', style: 'UGC', dest: 'Meta Ads', status: 'processing', outputs: 2, date: '23 Apr' }]
+  { id: 'c1', name: 'Lancio Spring 2026', style: 'Video dinamico', dest: 'TikTok & Reels', status: 'completed', outputs: 5, date: '20 Apr' },
+  { id: 'c2', name: 'Meta Feed Promo', style: 'Avatar presenta prodotto', dest: 'Meta Ads', status: 'processing', outputs: 2, date: '23 Apr' }]
 
 },
 {
@@ -23,16 +23,16 @@ const MOCK_PRODUCTS = [
   copy: ['Ammortizzazione avanzata', 'Peso piuma', 'Grip totale', 'Disponibile 36-47'],
   thumb: null,
   campaigns: [
-  { id: 'c3', name: 'Brand Spot Q2', style: 'Brand Spot', dest: 'YouTube Pre-roll', status: 'completed', outputs: 3, date: '18 Apr' }]
+  { id: 'c3', name: 'Brand Spot Q2', style: 'Video spot', dest: 'YouTube Pre-roll', status: 'completed', outputs: 3, date: '18 Apr' }]
 
 }];
 
 
 const STYLES = [
-{ id: 'hyper', label: 'Hyper Motion', desc: 'Transizioni veloci, energia pura', color: '#7C3AED', grad: 'linear-gradient(135deg,#3b1f6e,#7c3aed)' },
+{ id: 'hyper', label: 'Video dinamico', desc: 'Transizioni veloci, energia pura', color: '#7C3AED', grad: 'linear-gradient(135deg,#3b1f6e,#7c3aed)' },
 { id: 'unboxing', label: 'Unboxing', desc: 'Rivelazione del prodotto, mani reali', color: '#F97316', grad: 'linear-gradient(135deg,#7c2d12,#f97316)' },
-{ id: 'ugc', label: 'UGC', desc: 'Avatar che parla, stile organico', color: '#10B981', grad: 'linear-gradient(135deg,#064e3b,#10b981)' },
-{ id: 'brand', label: 'Brand Spot', desc: 'Cinematico, tono premium', color: '#3B82F6', grad: 'linear-gradient(135deg,#1e3a5f,#3b82f6)' }];
+{ id: 'ugc', label: 'Avatar presenta prodotto', desc: 'Presentatore che parla, stile organico', color: '#10B981', grad: 'linear-gradient(135deg,#064e3b,#10b981)' },
+{ id: 'brand', label: 'Video spot', desc: 'Cinematico, tono premium', color: '#3B82F6', grad: 'linear-gradient(135deg,#1e3a5f,#3b82f6)' }];
 
 
 const DESTINATIONS = [
@@ -87,7 +87,7 @@ const Sidebar = ({ products, activeProductId, setActiveProductId, onBackToLandin
       </div>
 
       <div style={DS.sidebarSection}>
-        <div style={DS.sidebarSectionLabel}>Prodotti</div>
+        <div style={DS.sidebarSectionLabel}>I miei prodotti</div>
         {products.map((p) =>
         <div key={p.id}>
             <div style={{ ...DS.sidebarProduct, ...(activeProductId === p.id ? DS.sidebarProductActive : {}) }}

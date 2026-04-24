@@ -64,7 +64,7 @@ const Landing = ({ onEnterApp }) => {
           <div style={landingStyles.previewBody}>
             {/* Sidebar mini */}
             <div style={landingStyles.previewSidebar}>
-              {['Dashboard', 'Progetti', 'Avatar', 'Output', 'Settings'].map((item, i) =>
+              {['Home', 'Crea contenuto', 'I miei prodotti', 'Presentatori', 'I miei contenuti', 'Impostazioni'].map((item, i) =>
               <div key={item} style={{ ...landingStyles.previewSideItem, ...(i === 0 ? landingStyles.previewSideActive : {}) }}>
                   <span style={landingStyles.previewSideDot} />
                   {item}
