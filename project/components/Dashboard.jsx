@@ -496,6 +496,99 @@ const AvatarSceneModal = ({ onClose, onDone, bar }) => {
 
 };
 
+// ─── STEP 4A: POST STATICO ────────────────────────────────────────────────────
+const StaticOptionsModal = ({ onClose, onDone }) => {
+  const [formats, setFormats] = React.useState(['1:1', '4:5']);
+  const [textOption, setTextOption] = React.useState('draft');
+  const [withPresenter, setWithPresenter] = React.useState(null);
+
+  const toggleFormat = (f) =>
+    setFormats((prev) => prev.includes(f) ? prev.filter((x) => x !== f) : [...prev, f]);
+
+  const textOptions = [
+    { id: 'draft',  label: 'Usa il testo che ho preparato', desc: 'Il testo generato automaticamente per il tuo prodotto' },
+    { id: 'custom', label: 'Scrivo io il testo',            desc: 'Inserisci il messaggio che vuoi mostrare' },
+    { id: 'none',   label: 'Senza testo',                   desc: 'Solo l\'immagine del prodotto, nessuna scritta' },
+  ];
+
+  const canContinue = formats.length > 0 && withPresenter !== null;
+
+  return (
+    <div style={DS.modalOverlay} onClick={onClose}>
+      <div style={{ ...DS.modalBox, maxWidth: 640 }} onClick={(e) => e.stopPropagation()}>
+        <div style={DS.modalHeader}>
+          <h3 style={{ fontSize: 22, fontWeight: 800 }}>Imposta i tuoi post</h3>
+          <span style={DS.modalClose} onClick={onClose}>✕</span>
+        </div>
+
+        {/* Formati */}
+        <div style={{ marginBottom: 28 }}>
+          <div style={DS.extractLabel}>Dimensioni — puoi scegliere più formati</div>
+          <div style={{ display: 'flex', gap: 10, marginTop: 10, flexWrap: 'wrap' }}>
+            {STATIC_FORMATS.map((f) => {
+              const active = formats.includes(f.id);
+              const aiRec  = f.id === '1:1' || f.id === '4:5';
+              return (
+                <div key={f.id} onClick={() => toggleFormat(f.id)}
+                  style={{ ...DS.destCard, padding: '12px 18px', minWidth: 100, textAlign: 'center', position: 'relative',
+                    ...(active ? { border: '2px solid #5B4FCF', background: 'rgba(91,79,207,0.08)' } : {}) }}>
+                  {aiRec && formats.length >= 1 && <div style={{ position: 'absolute', top: 4, right: 6, fontSize: 9, color: '#5B4FCF', fontWeight: 700 }}>★</div>}
+                  <div style={{ fontWeight: 800, fontSize: 18 }}>{f.id}</div>
+                  <div style={{ fontSize: 11, color: '#8880B0', marginTop: 2 }}>{f.desc}</div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Testo sul post */}
+        <div style={{ marginBottom: 28 }}>
+          <div style={DS.extractLabel}>Testo sul post</div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 10 }}>
+            {textOptions.map((t) => (
+              <div key={t.id} onClick={() => setTextOption(t.id)}
+                style={{ ...DS.destCard, padding: '12px 16px', display: 'flex', alignItems: 'center', gap: 12,
+                  ...(textOption === t.id ? { border: '2px solid #5B4FCF', background: 'rgba(91,79,207,0.08)' } : {}) }}>
+                <div style={{ width: 18, height: 18, borderRadius: '50%', flexShrink: 0, border: `2px solid ${textOption === t.id ? '#5B4FCF' : '#4A4470'}`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  {textOption === t.id && <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#5B4FCF' }} />}
+                </div>
+                <div>
+                  <div style={{ fontWeight: 600, fontSize: 14 }}>{t.label}</div>
+                  <div style={{ color: '#8880B0', fontSize: 12, marginTop: 2 }}>{t.desc}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Presentatore */}
+        <div style={{ marginBottom: 28 }}>
+          <div style={DS.extractLabel}>Presentatore nel post?</div>
+          <div style={{ display: 'flex', gap: 12, marginTop: 10 }}>
+            {[
+              { id: true,  label: 'Con presentatore', icon: '🧑', desc: 'Un avatar parla o appare nel post' },
+              { id: false, label: 'Solo prodotto',    icon: '📦', desc: 'Solo l\'immagine del prodotto' },
+            ].map((o) => (
+              <div key={String(o.id)} onClick={() => setWithPresenter(o.id)}
+                style={{ ...DS.destCard, flex: 1, padding: '16px',
+                  ...(withPresenter === o.id ? { border: '2px solid #5B4FCF', background: 'rgba(91,79,207,0.08)' } : {}) }}>
+                <div style={{ fontSize: 28, marginBottom: 8 }}>{o.icon}</div>
+                <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 4 }}>{o.label}</div>
+                <div style={{ fontSize: 12, color: '#8880B0' }}>{o.desc}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <button style={{ ...DS.primaryBtn, width: '100%', padding: '14px', fontSize: 15, opacity: canContinue ? 1 : 0.4 }}
+          disabled={!canContinue}
+          onClick={() => onDone({ formats, textOption, withPresenter })}>
+          Continua →
+        </button>
+      </div>
+    </div>);
+};
+
 // ─── DESTINATION MODAL ───────────────────────────────────────────────────────
 const DestinationModal = ({ onClose, onDone, bar }) => {
   const [sel, setSel] = React.useState(bar.destination || null);
