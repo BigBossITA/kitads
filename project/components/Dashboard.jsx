@@ -366,6 +366,55 @@ const ProcessingModal = ({ productData, onDone }) => {
 
 };
 
+// ─── STEP 3: COSA VUOI CREARE? ───────────────────────────────────────────────
+const ContentTypeModal = ({ onClose, onDone, productCategory }) => {
+  const rec = (productCategory || '').toLowerCase().includes('footwear') ? 'video' : 'both';
+  const [sel, setSel] = React.useState(null);
+
+  const types = [
+    { id: 'static', icon: '🖼', label: 'Post statico', desc: 'Immagini per social e advertising. Perfetto per promozioni, offerte e catalogo.' },
+    { id: 'video',  icon: '🎬', label: 'Video',        desc: 'Clip per TikTok, Reel, Spot. Il formato che converte di più.' },
+    { id: 'both',   icon: '✦',  label: 'Entrambi',     desc: 'Video e grafiche insieme. Massima copertura su tutti i canali.' },
+  ];
+
+  return (
+    <div style={DS.modalOverlay} onClick={onClose}>
+      <div style={{ ...DS.modalBox, maxWidth: 600 }} onClick={(e) => e.stopPropagation()}>
+        <div style={DS.modalHeader}>
+          <h3 style={{ fontSize: 22, fontWeight: 800 }}>Cosa vuoi creare?</h3>
+          <span style={DS.modalClose} onClick={onClose}>✕</span>
+        </div>
+        <p style={{ color: '#8880B0', fontSize: 14, marginBottom: 24, lineHeight: 1.6 }}>
+          L'AI ha già selezionato quello più adatto al tuo prodotto. Puoi cambiare quando vuoi.
+        </p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          {types.map((t) => {
+            const isRec = t.id === rec;
+            const isSel = sel === t.id || (!sel && isRec);
+            return (
+              <div key={t.id} onClick={() => setSel(t.id)}
+                style={{ ...DS.destCard, display: 'flex', alignItems: 'center', gap: 20,
+                  ...(isSel ? { border: '2px solid #5B4FCF', background: 'rgba(91,79,207,0.08)' } :
+                    isRec   ? { border: '1px solid rgba(91,79,207,0.4)' } : {}) }}>
+                {isRec && <RecommendedBadge />}
+                <div style={{ fontSize: 34, lineHeight: 1 }}>{t.icon}</div>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{t.label}</div>
+                  <div style={{ color: '#8880B0', fontSize: 13, lineHeight: 1.5 }}>{t.desc}</div>
+                </div>
+                {isSel && <div style={{ width: 22, height: 22, borderRadius: '50%', background: '#5B4FCF', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, flexShrink: 0 }}>✓</div>}
+              </div>
+            );
+          })}
+        </div>
+        <button style={{ ...DS.primaryBtn, marginTop: 24, width: '100%', padding: '14px', fontSize: 15 }}
+          onClick={() => onDone(sel || rec)}>
+          Continua →
+        </button>
+      </div>
+    </div>);
+};
+
 // ─── AVATAR + SCENE MODAL ────────────────────────────────────────────────────
 const AvatarSceneModal = ({ onClose, onDone, bar }) => {
   const [selAvatar, setSelAvatar] = React.useState(bar.avatarId || null);
