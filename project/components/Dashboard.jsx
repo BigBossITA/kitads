@@ -35,18 +35,11 @@ const STYLES = [
 { id: 'brand', label: 'Video spot', desc: 'Cinematico, tono premium', color: '#3B82F6', grad: 'linear-gradient(135deg,#1e3a5f,#3b82f6)' }];
 
 
-const DESTINATIONS = [
-{ id: 'tiktok', label: 'TikTok & Reels', formats: '9:16 · 15s · 30s', icon: '▲' },
-{ id: 'meta', label: 'Meta Ads', formats: 'Feed + Story · 1:1 · 9:16', icon: '◈' },
-{ id: 'youtube', label: 'YouTube Pre-roll', formats: '16:9 · :06 · :15 · :30', icon: '▶' },
-{ id: 'all', label: 'Tutto incluso', formats: 'Tutti i formati · Tutti i canali', icon: '✦', recommended: true }];
-
-
 const SCENES = [
-{ id: 'studio', label: 'Studio', sub: 'Sfondo bianco neutro', grad: 'linear-gradient(135deg,#1a1a2e,#2d2d4e)' },
-{ id: 'lifestyle', label: 'Lifestyle esterno', sub: 'Ambientazione naturale', grad: 'linear-gradient(135deg,#0d2818,#1a4a2e)' },
-{ id: 'kitchen', label: 'Cucina / Casa', sub: 'Setting domestico', grad: 'linear-gradient(135deg,#2a1a0d,#4a2e1a)' },
-{ id: 'branded', label: 'Background branded', sub: 'Colori del tuo brand', grad: 'linear-gradient(135deg,#1a0d2a,#3a1a5e)' }];
+{ id: 'studio', label: 'Studio', sub: 'Sfondo neutro professionale', grad: 'linear-gradient(135deg,#1a1a2e,#2d2d4e)', emoji: '⬜' },
+{ id: 'lifestyle', label: 'Lifestyle esterno', sub: 'Ambientazione naturale', grad: 'linear-gradient(135deg,#0d2818,#1a4a2e)', emoji: '🌿' },
+{ id: 'kitchen', label: 'Cucina e Casa', sub: 'Setting domestico', grad: 'linear-gradient(135deg,#2a1a0d,#4a2e1a)', emoji: '🏠' },
+{ id: 'branded', label: 'Background del tuo brand', sub: 'Colori del tuo brand', grad: 'linear-gradient(135deg,#1a0d2a,#3a1a5e)', emoji: '🎨' }];
 
 
 const AVATARS = [
@@ -55,19 +48,19 @@ const AVATARS = [
 { id: 5, name: 'Nova', style: '3D', col: '#1e2a1e' }, { id: 6, name: 'Alex', style: 'Corporate M', col: '#1a2020' }];
 
 
-const PROMPTS = [
-'"Mostra il prodotto usato in cucina da una persona giovane"',
-'"Unboxing energico con musica veloce"',
-'"Video elegante su sfondo neutro, tono premium"',
-'"Persona che usa il prodotto in palestra, ritmo alto"'];
-
-
 const PROCESS_STEPS = [
 { label: 'Analisi immagini prodotto', key: 'img' },
 { label: 'Rilevamento nome e prezzo', key: 'price' },
 { label: 'Classificazione categoria', key: 'cat' },
 { label: 'Estrazione palette colori', key: 'colors' },
-{ label: 'Generazione copy AI', key: 'copy' }];
+{ label: 'Generazione testo pubblicitario', key: 'copy' }];
+
+
+const STATIC_FORMATS = [
+{ id: '1:1', label: '1:1', desc: 'Post quadrato' },
+{ id: '4:5', label: '4:5', desc: 'Post verticale' },
+{ id: '9:16', label: '9:16', desc: 'Story / Reel' },
+{ id: '16:9', label: '16:9', desc: 'Banner orizzontale' }];
 
 
 // ─── HELPERS ─────────────────────────────────────────────────────────────────
