@@ -70,8 +70,14 @@ const StatusDot = ({ status }) => {
   return <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: 12, fontWeight: 600, color: c[status], background: c[status] + '18', border: `1px solid ${c[status]}33`, borderRadius: 100, padding: '3px 10px' }}>● {l[status]}</span>;
 };
 
+const RecommendedBadge = () => (
+  <span style={{ position: 'absolute', top: 10, right: 10, background: 'linear-gradient(135deg,#5B4FCF,#7B6FEF)', borderRadius: 100, padding: '2px 10px', fontSize: 10, fontWeight: 700, color: '#fff', zIndex: 1 }}>
+    Consigliato per te
+  </span>
+);
+
 // ─── SIDEBAR ─────────────────────────────────────────────────────────────────
-const Sidebar = ({ products, activeProductId, setActiveProductId, onBackToLanding, credits }) => {
+const Sidebar = ({ products, activeProductId, setActiveProductId, onBackToLanding, credits, view, setView }) => {
   const [expanded, setExpanded] = React.useState({ 'p1': true, 'p2': false });
   return (
     <div style={DS.sidebar}>
@@ -83,8 +89,8 @@ const Sidebar = ({ products, activeProductId, setActiveProductId, onBackToLandin
         <div style={DS.sidebarSectionLabel}>I miei prodotti</div>
         {products.map((p) =>
         <div key={p.id}>
-            <div style={{ ...DS.sidebarProduct, ...(activeProductId === p.id ? DS.sidebarProductActive : {}) }}
-          onClick={() => {setActiveProductId(p.id);setExpanded((e) => ({ ...e, [p.id]: !e[p.id] }));}}>
+            <div style={{ ...DS.sidebarProduct, ...(activeProductId === p.id && view === 'home' ? DS.sidebarProductActive : {}) }}
+          onClick={() => { setActiveProductId(p.id); setView('home'); setExpanded((e) => ({ ...e, [p.id]: !e[p.id] })); }}>
               <div style={{ ...DS.sidebarProductDot, background: p.colors?.[0] || '#5B4FCF' }} />
               <span style={{ flex: 1, fontSize: 13, fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.name}</span>
               <span style={{ fontSize: 10, color: '#4A4470' }}>{expanded[p.id] ? '▾' : '▸'}</span>
@@ -102,6 +108,12 @@ const Sidebar = ({ products, activeProductId, setActiveProductId, onBackToLandin
       <div style={{ flex: 1 }} />
 
       <div style={DS.sidebarBottom}>
+        <div
+          style={{ ...DS.sidebarProduct, ...(view === 'settings' ? DS.sidebarProductActive : {}), marginBottom: 4 }}
+          onClick={() => setView('settings')}>
+          <span style={{ fontSize: 13, opacity: 0.5 }}>⚙</span>
+          <span style={{ fontSize: 13, fontWeight: 600 }}>Impostazioni</span>
+        </div>
         <div style={DS.creditsChip}>
           <span style={{ fontSize: 18, fontWeight: 800, color: '#F97316' }}>{credits}</span>
           <div>
@@ -118,153 +130,38 @@ const Sidebar = ({ products, activeProductId, setActiveProductId, onBackToLandin
 
 };
 
-// ─── CREATION BAR ─────────────────────────────────────────────────────────────
-const CreationBar = ({ bar, setBar, onOpenProduct, onOpenAvatar, onGenerate, credits }) => {
-  const placeholderIdx = React.useRef(0);
-  const [placeholder, setPlaceholder] = React.useState(PROMPTS[0]);
-  React.useEffect(() => {
-    const t = setInterval(() => {
-      placeholderIdx.current = (placeholderIdx.current + 1) % PROMPTS.length;
-      setPlaceholder(PROMPTS[placeholderIdx.current]);
-    }, 3200);
-    return () => clearInterval(t);
-  }, []);
-
-  const ready = bar.productFile || bar.productUrl;
-
+// ─── TOP BAR ──────────────────────────────────────────────────────────────────
+const TopBar = ({ onStart, bar }) => {
   return (
     <div style={DS.creationBarWrap}>
       <div style={DS.creationBar}>
-        {/* Product slot */}
-        <div style={{ ...DS.barSlot, ...(ready ? DS.barSlotFilled : {}) }} onClick={onOpenProduct}>
-          {ready ?
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        <div style={{ flex: 1, display: 'flex', alignItems: 'center', padding: '0 4px' }}>
+          {bar.productName ?
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 12px' }}>
               {bar.productFile ?
-            <img src={bar.productFile} style={{ width: 32, height: 32, borderRadius: 8, objectFit: 'cover' }} /> :
-            <div style={{ width: 32, height: 32, borderRadius: 8, background: 'linear-gradient(135deg,#5B4FCF,#F97316)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12 }}>🔗</div>
-            }
+                <img src={bar.productFile} style={{ width: 32, height: 32, borderRadius: 8, objectFit: 'cover' }} /> :
+                <div style={{ width: 32, height: 32, borderRadius: 8, background: 'linear-gradient(135deg,#5B4FCF,#F97316)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12 }}>🔗</div>
+              }
               <div>
-                <div style={{ fontSize: 12, fontWeight: 700, color: '#F0EFFE' }}>{bar.productName || 'Prodotto'}</div>
-                <div style={{ fontSize: 10, color: '#5B4FCF' }}>✓ caricato</div>
+                <div style={{ fontSize: 12, fontWeight: 700, color: '#F0EFFE' }}>{bar.productName}</div>
+                <div style={{ fontSize: 10, color: '#5B4FCF' }}>✓ prodotto caricato</div>
               </div>
             </div> :
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <div style={DS.barSlotIcon}>+</div>
-              <div>
-                <div style={{ fontSize: 13, fontWeight: 600, color: '#8880B0' }}>Prodotto</div>
-                <div style={{ fontSize: 11, color: '#4A4470' }}>foto o URL</div>
-              </div>
+            <div style={{ padding: '8px 12px', color: '#4A4470', fontSize: 13 }}>
+              Carica un prodotto per iniziare
             </div>
           }
         </div>
-
-        <div style={DS.barDivider} />
-
-        {/* Prompt */}
-        <div style={{ flex: 1, position: 'relative' }}>
-          <input
-            style={DS.barPrompt}
-            value={bar.prompt}
-            onChange={(e) => setBar((b) => ({ ...b, prompt: e.target.value }))}
-            placeholder={placeholder} />
-          
-        </div>
-
-        <div style={DS.barDivider} />
-
-        {/* Style selector */}
-        <div style={{ display: 'flex', gap: 4, padding: '0 4px' }}>
-          {STYLES.map((s) =>
-          <div key={s.id} onClick={() => setBar((b) => ({ ...b, style: s.id }))}
-          style={{ ...DS.styleChip, ...(bar.style === s.id ? { background: s.color + '22', border: `1px solid ${s.color}66`, color: s.color } : {}) }}>
-              {s.label}
-            </div>
-          )}
-        </div>
-
-        <div style={DS.barDivider} />
-
-        {/* Avatar slot */}
-        <div style={{ ...DS.barSlot, minWidth: 100, ...(bar.avatarId ? DS.barSlotFilled : {}) }} onClick={onOpenAvatar}>
-          {bar.avatarId ?
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <div style={{ width: 28, height: 28, borderRadius: '50%', background: `linear-gradient(135deg,${AVATARS.find((a) => a.id === bar.avatarId)?.col || '#5B4FCF'},#0F0E26)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10 }}>
-                <svg width="14" height="14" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="7" r="4" fill="rgba(255,255,255,0.5)" /><ellipse cx="10" cy="17" rx="7" ry="4" fill="rgba(255,255,255,0.3)" /></svg>
-              </div>
-              <div style={{ fontSize: 12, fontWeight: 600, color: '#C4BFFF' }}>{AVATARS.find((a) => a.id === bar.avatarId)?.name}</div>
-            </div> :
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <div style={DS.barSlotIcon}>+</div>
-              <div style={{ fontSize: 12, color: '#8880B0', fontWeight: 600 }}>Avatar</div>
-            </div>
-          }
-        </div>
-
-        {/* Generate */}
-        <button
-          style={{ ...DS.generateBtn, opacity: ready ? 1 : 0.5, cursor: ready ? 'pointer' : 'default' }}
-          disabled={!ready}
-          onClick={() => ready && onGenerate()}>
-          
+        <button style={DS.generateBtn} onClick={onStart}>
           <span style={{ fontSize: 16 }}>✦</span>
           <div>
-            <div style={{ fontSize: 13, fontWeight: 800 }}>Genera</div>
-            <div style={{ fontSize: 10, opacity: 0.8 }}>−4 crediti</div>
+            <div style={{ fontSize: 13, fontWeight: 800 }}>Crea contenuto</div>
+            <div style={{ fontSize: 10, opacity: 0.8 }}>inizia da qui</div>
           </div>
         </button>
       </div>
     </div>);
-
 };
-
-// ─── STYLE EXAMPLES GRID ─────────────────────────────────────────────────────
-const StyleExamples = ({ onSelectStyle, selectedStyle }) =>
-<div style={{ marginTop: 40 }}>
-    <div style={{ textAlign: 'center', marginBottom: 24 }}>
-      <div style={{ fontSize: 11, fontWeight: 700, color: '#5B4FCF', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 8 }}>✦ Genera in ogni stile</div>
-      <h2 style={{ fontSize: 44, fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.1 }}>Il tuo prodotto,<br />in ogni formato.</h2>
-    </div>
-    <div style={DS.stylesGrid}>
-      {STYLES.map((s, i) =>
-    <div key={s.id} style={{ ...DS.styleCard, ...(selectedStyle === s.id ? { border: `1.5px solid ${s.color}`, boxShadow: `0 0 30px ${s.color}33` } : {}) }}
-    onClick={() => onSelectStyle(s.id)}>
-          <div style={{ ...DS.styleCardPreview, background: s.grad }}>
-            {/* Animated placeholder representing the style */}
-            <div style={DS.styleCardVisual}>
-              {s.id === 'hyper' && <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', justifyContent: 'center' }}>
-                {[1, 2, 3, 4, 5, 6].map((n) => <div key={n} style={{ width: 20, height: 20, borderRadius: 4, background: `rgba(255,255,255,${0.05 + n * 0.05})`, transform: `rotate(${n * 15}deg)` }} />)}
-              </div>}
-              {s.id === 'unboxing' && <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <div style={{ width: 60, height: 60, borderRadius: 10, background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}>📦</div>
-                <div style={{ position: 'absolute', top: -10, right: -10, width: 20, height: 20, borderRadius: '50%', background: '#F97316', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10 }}>✦</div>
-              </div>}
-              {s.id === 'ugc' && <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
-                <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'rgba(16,185,129,0.3)', border: '2px solid #10B981', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="7" r="4" fill="rgba(255,255,255,0.5)" /><ellipse cx="10" cy="17" rx="7" ry="4" fill="rgba(255,255,255,0.3)" /></svg>
-                </div>
-                <div style={{ width: 56, height: 3, borderRadius: 3, background: 'rgba(255,255,255,0.15)' }} />
-                <div style={{ width: 40, height: 3, borderRadius: 3, background: 'rgba(255,255,255,0.08)' }} />
-              </div>}
-              {s.id === 'brand' && <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
-                <div style={{ width: 48, height: 3, borderRadius: 3, background: 'rgba(255,255,255,0.4)' }} />
-                <div style={{ width: 32, height: 3, borderRadius: 3, background: 'rgba(255,255,255,0.2)' }} />
-                <div style={{ width: 40, height: 16, borderRadius: 4, background: 'rgba(59,130,246,0.4)', marginTop: 4 }} />
-              </div>}
-            </div>
-            <div style={{ position: 'absolute', top: 10, left: 10 }}>
-              <span style={{ background: s.color + '33', border: `1px solid ${s.color}66`, color: s.color, fontSize: 10, fontWeight: 700, padding: '3px 8px', borderRadius: 100 }}>{s.label}</span>
-            </div>
-          </div>
-          <div style={{ padding: '14px 16px' }}>
-            <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 4 }}>{s.label}</div>
-            <div style={{ fontSize: 12, color: '#8880B0' }}>{s.desc}</div>
-          </div>
-        </div>
-    )}
-    </div>
-  </div>;
 
 
 // ─── PRODUCT UPLOAD MODAL ────────────────────────────────────────────────────
