@@ -133,8 +133,8 @@ const Sidebar = ({ products, activeProductId, setActiveProductId, onBackToLandin
 // ─── TOP BAR ──────────────────────────────────────────────────────────────────
 const TopBar = ({ onStart, bar }) => {
   return (
-    <div style={DS.creationBarWrap}>
-      <div style={DS.creationBar}>
+    <div style={DS.TopBarWrap}>
+      <div style={DS.TopBar}>
         <div style={{ flex: 1, display: 'flex', alignItems: 'center', padding: '0 4px' }}>
           {bar.productName ?
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 12px' }}>
@@ -866,20 +866,16 @@ const Dashboard = ({ onBackToLanding }) => {
       <Sidebar products={products} activeProductId={activeProductId} setActiveProductId={setActiveProductId} onBackToLanding={onBackToLanding} credits={12} />
 
       <div style={DS.main}>
-        <CreationBar bar={bar} setBar={setBar} onOpenProduct={openProductModal} onOpenAvatar={openAvatarModal} onGenerate={handleGenerate} credits={12} />
+        <TopBar bar={bar} setBar={setBar} onOpenProduct={openProductModal} onOpenAvatar={openAvatarModal} onGenerate={handleGenerate} credits={12} />
 
-        <div style={{ overflow: 'auto', flex: 1 }}>
-          {modal === 'output' ?
-          <OutputView bar={bar} productData={productData} onNewCampaign={handleNewCampaign} /> :
-          activeProduct ?
-          <ProductDetail product={activeProduct} onNewCampaign={openProductModal} /> :
-          <div style={{ padding: '40px 48px' }}><StyleExamples onSelectStyle={(s) => setBar((b) => ({ ...b, style: s }))} selectedStyle={bar.style} /></div>
-          }
-
-          {!activeProduct && modal !== 'output' &&
-          <div style={{ padding: '0 48px 48px' }}>
-              <StyleExamples onSelectStyle={(s) => setBar((b) => ({ ...b, style: s }))} selectedStyle={bar.style} />
-            </div>
+<div style={{ overflow: 'auto', flex: 1 }}>
+  {modal === 'output' ?
+  <OutputView bar={bar} productData={productData} onNewCampaign={handleNewCampaign} /> :
+  activeProduct ?
+  <ProductDetail product={activeProduct} onNewCampaign={openProductModal} /> :
+  <div style={{ padding: '80px 48px', textAlign: 'center', color: '#4A4470', fontSize: 14 }}>Carica un prodotto per iniziare</div>
+  }
+</div>
           }
         </div>
       </div>
@@ -911,8 +907,8 @@ const DS = {
   sidebarUser: { display: 'flex', alignItems: 'center', gap: 10 },
   main: { flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' },
   // Creation bar
-  creationBarWrap: { borderBottom: '1px solid #1E1B42', padding: '12px 24px', background: '#0A0920', flexShrink: 0 },
-  creationBar: { background: '#0F0E26', border: '1px solid #1E1B42', borderRadius: 14, display: 'flex', alignItems: 'center', gap: 0, overflow: 'hidden' },
+  TopBarWrap: { borderBottom: '1px solid #1E1B42', padding: '12px 24px', background: '#0A0920', flexShrink: 0 },
+  TopBar: { background: '#0F0E26', border: '1px solid #1E1B42', borderRadius: 14, display: 'flex', alignItems: 'center', gap: 0, overflow: 'hidden' },
   barSlot: { display: 'flex', alignItems: 'center', padding: '12px 16px', cursor: 'pointer', minWidth: 140, transition: 'background 0.15s' },
   barSlotFilled: { background: 'rgba(91,79,207,0.06)' },
   barSlotIcon: { width: 28, height: 28, borderRadius: 8, background: '#1E1B42', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, color: '#4A4470', flexShrink: 0 },
