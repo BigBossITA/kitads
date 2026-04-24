@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KitAds — Ads made simple.</title>
+
+  <!-- Bundler resource dependencies -->
+  <meta name="ext-resource-dependency" content="../uploads/logo-bianco-kitads-8fff61f2.png" data-resource-id="logoWhite"/>
+  <meta name="ext-resource-dependency" content="../uploads/FOX.webp" data-resource-id="foxImg"/>
+
+  <!-- Thumbnail for bundler splash -->
+  <template id="__bundler_thumbnail" data-bg-color="#08071A">
+    <svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+      <!-- Dark bg -->
+      <rect width="400" height="260" fill="#08071A"/>
+      <!-- Sidebar -->
+      <rect x="0" y="0" width="70" height="260" fill="#0A0920"/>
+      <rect x="0" y="0" width="70" height="260" fill="none" stroke="#1E1B42" stroke-width="1"/>
+      <!-- Sidebar dots -->
+      <circle cx="22" cy="50" r="5" fill="#5B4FCF" opacity="0.8"/>
+      <rect x="32" y="47" width="28" height="4" rx="2" fill="#4A4470"/>
+      <circle cx="22" cy="74" r="5" fill="#4A4470" opacity="0.5"/>
+      <rect x="32" y="71" width="22" height="4" rx="2" fill="#4A4470" opacity="0.5"/>
+      <circle cx="22" cy="98" r="5" fill="#4A4470" opacity="0.5"/>
+      <rect x="32" y="95" width="25" height="4" rx="2" fill="#4A4470" opacity="0.5"/>
+      <!-- Creation bar -->
+      <rect x="80" y="16" width="304" height="36" rx="10" fill="#0F0E26" stroke="#1E1B42" stroke-width="1"/>
+      <!-- Bar slots -->
+      <rect x="90" y="24" width="50" height="20" rx="6" fill="#1E1B42" opacity="0.5"/>
+      <rect x="152" y="24" width="80" height="20" rx="6" fill="#1E1B42" opacity="0.3"/>
+      <rect x="244" y="24" width="50" height="20" rx="6" fill="#5B4FCF" opacity="0.3"/>
+      <rect x="306" y="24" width="68" height="20" rx="6" fill="url(#btnGrad)"/>
+      <!-- Cards grid -->
+      <rect x="80" y="64" width="92" height="110" rx="10" fill="#0F0E26" stroke="#1E1B42" stroke-width="1"/>
+      <rect x="182" y="64" width="92" height="110" rx="10" fill="#0F0E26" stroke="#1E1B42" stroke-width="1"/>
+      <rect x="284" y="64" width="100" height="110" rx="10" fill="#0F0E26" stroke="#1E1B42" stroke-width="1"/>
+      <!-- Card media areas -->
+      <rect x="80" y="64" width="92" height="76" rx="10" fill="#1a1840"/>
+      <rect x="182" y="64" width="92" height="76" rx="10" fill="#1E1B4B"/>
+      <rect x="284" y="64" width="100" height="76" rx="10" fill="#1a183a"/>
+      <!-- Play icons -->
+      <polygon points="118,96 134,104 118,112" fill="rgba(255,255,255,0.25)"/>
+      <circle cx="228" cy="102" r="14" fill="rgba(91,79,207,0.4)"/>
+      <polygon points="223,96 237,102 223,108" fill="rgba(255,255,255,0.4)"/>
+      <!-- Logo text area -->
+      <rect x="10" y="10" width="50" height="18" rx="4" fill="#5B4FCF" opacity="0.3"/>
+      <!-- Bottom progress -->
+      <rect x="80" y="186" width="304" height="24" rx="8" fill="#0A0920" stroke="#1E1B42" stroke-width="1"/>
+      <rect x="90" y="193" width="180" height="4" rx="2" fill="#1E1B42"/>
+      <rect x="90" y="193" width="120" height="4" rx="2" fill="url(#progGrad)"/>
+      <!-- Orange accent dot -->
+      <circle cx="370" cy="195" r="6" fill="#F97316" opacity="0.8"/>
+      <!-- KitAds wordmark rough -->
+      <text x="200" y="232" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="700" fill="#5B4FCF" opacity="0.6" letter-spacing="2">KITADS</text>
+      <defs>
+        <linearGradient id="btnGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#5B4FCF"/>
+          <stop offset="100%" stop-color="#7B6FEF"/>
+        </linearGradient>
+        <linearGradient id="progGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#5B4FCF"/>
+          <stop offset="100%" stop-color="#F97316"/>
+        </linearGradient>
+      </defs>
+    </svg>
+  </template>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body, #root { height: 100%; }
+    body { background: #08071A; overflow-x: hidden; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:none} }
+    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #0A0920; }
+    ::-webkit-scrollbar-thumb { background: #1E1B42; border-radius: 3px; }
+    input:focus { border-color: #5B4FCF !important; box-shadow: 0 0 0 3px rgba(91,79,207,0.15) !important; }
+    a { transition: color 0.15s; }
+    a:hover { color: #7B6FEF !important; }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" src="Landing.jsx"></script>
+<script type="text/babel" src="Dashboard.jsx"></script>
+
+<script type="text/babel">
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "primaryColor": "#5B4FCF",
+  "accentColor": "#F97316",
+  "bgColor": "#08071A",
+  "darkMode": true,
+  "fontScale": 1
+}/*EDITMODE-END*/;
+
+const App = () => {
+  const [view, setView] = React.useState('landing');
+  const [tweaks, setTweaks] = React.useState(TWEAK_DEFAULTS);
+  const [tweakOpen, setTweakOpen] = React.useState(false);
+
+  React.useEffect(() => {
+    window.addEventListener('message', (e) => {
+      if (e.data?.type === '__activate_edit_mode') setTweakOpen(true);
+      if (e.data?.type === '__deactivate_edit_mode') setTweakOpen(false);
+    });
+    window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+  }, []);
+
+  const updateTweak = (key, value) => {
+    const next = { ...tweaks, [key]: value };
+    setTweaks(next);
+    window.parent.postMessage({ type: '__edit_mode_set_keys', edits: next }, '*');
+  };
+
+  React.useEffect(() => {
+    document.documentElement.style.setProperty('--primary', tweaks.primaryColor);
+    document.documentElement.style.setProperty('--accent', tweaks.accentColor);
+  }, [tweaks]);
+
+  return (
+    <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: `${tweaks.fontScale * 16}px` }}>
+      {view === 'landing'
+        ? <Landing onEnterApp={() => setView('app')} />
+        : <Dashboard onBackToLanding={() => setView('landing')} />
+      }
+
+      {tweakOpen && (
+        <div style={{
+          position:'fixed', bottom:24, right:24, zIndex:9999,
+          background:'#0F0E26', border:'1px solid #1E1B42', borderRadius:16,
+          padding:24, width:280, boxShadow:'0 20px 60px rgba(0,0,0,0.6)'
+        }}>
+          <div style={{fontWeight:700,fontSize:14,marginBottom:20,color:'#F0EFFE',display:'flex',justifyContent:'space-between'}}>
+            Tweaks
+            <span style={{cursor:'pointer',color:'#4A4470'}} onClick={()=>setTweakOpen(false)}>✕</span>
+          </div>
+
+          <label style={twkLabel}>Colore Primario</label>
+          <div style={{display:'flex',gap:8,marginBottom:16,flexWrap:'wrap'}}>
+            {['#5B4FCF','#7B5CF5','#4338CA','#6D28D9','#0EA5E9'].map(c=>(
+              <div key={c} onClick={()=>updateTweak('primaryColor',c)}
+                style={{width:28,height:28,borderRadius:6,background:c,cursor:'pointer',border:tweaks.primaryColor===c?'2px solid white':'2px solid transparent'}}/>
+            ))}
+          </div>
+
+          <label style={twkLabel}>Colore Accento</label>
+          <div style={{display:'flex',gap:8,marginBottom:16,flexWrap:'wrap'}}>
+            {['#F97316','#EF4444','#10B981','#FBBF24','#EC4899'].map(c=>(
+              <div key={c} onClick={()=>updateTweak('accentColor',c)}
+                style={{width:28,height:28,borderRadius:6,background:c,cursor:'pointer',border:tweaks.accentColor===c?'2px solid white':'2px solid transparent'}}/>
+            ))}
+          </div>
+
+          <label style={twkLabel}>Scala testo</label>
+          <input type="range" min="0.85" max="1.2" step="0.05" value={tweaks.fontScale}
+            onChange={e=>updateTweak('fontScale',parseFloat(e.target.value))}
+            style={{width:'100%',marginBottom:16,accentColor:'#5B4FCF'}}
+          />
+
+          <label style={twkLabel}>Vista</label>
+          <div style={{display:'flex',gap:8}}>
+            <button onClick={()=>setView('landing')}
+              style={{flex:1,padding:'8px',borderRadius:8,border:'1px solid #1E1B42',background:view==='landing'?'rgba(91,79,207,0.2)':'transparent',color:view==='landing'?'#C4BFFF':'#8880B0',cursor:'pointer',fontSize:12,fontWeight:600}}>
+              Landing
+            </button>
+            <button onClick={()=>setView('app')}
+              style={{flex:1,padding:'8px',borderRadius:8,border:'1px solid #1E1B42',background:view==='app'?'rgba(91,79,207,0.2)':'transparent',color:view==='app'?'#C4BFFF':'#8880B0',cursor:'pointer',fontSize:12,fontWeight:600}}>
+              Dashboard
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+const twkLabel = { display:'block', fontSize:11, fontWeight:600, color:'#8880B0', textTransform:'uppercase', letterSpacing:'0.08em', marginBottom:8 };
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>

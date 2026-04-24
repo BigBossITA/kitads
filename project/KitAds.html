@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KitAds — Ads made simple.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body, #root { height: 100%; }
+    body { background: #08071A; overflow-x: hidden; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:none} }
+    @keyframes shimmer { 0%{background-position:-200% center} 100%{background-position:200% center} }
+    .hero-animate { animation: fadeUp 0.8s ease both; }
+    .hero-animate-d1 { animation: fadeUp 0.8s ease 0.1s both; }
+    .hero-animate-d2 { animation: fadeUp 0.8s ease 0.2s both; }
+    .hero-animate-d3 { animation: fadeUp 0.8s ease 0.3s both; }
+    .hero-animate-d4 { animation: fadeUp 0.8s ease 0.5s both; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #0A0920; }
+    ::-webkit-scrollbar-thumb { background: #1E1B42; border-radius: 3px; }
+    input:focus { border-color: #5B4FCF !important; box-shadow: 0 0 0 3px rgba(91,79,207,0.15) !important; }
+    .table-row:hover { background: rgba(91,79,207,0.04) !important; }
+    .sidebar-item:hover { background: rgba(255,255,255,0.04); color: #C4BFFF !important; }
+    .upload-zone:hover { border-color: #5B4FCF !important; }
+    .avatar-card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(91,79,207,0.2); }
+    .output-type-card:hover { border-color: rgba(91,79,207,0.4) !important; }
+    .faq-item:hover { background: rgba(91,79,207,0.03); }
+    a { transition: color 0.15s; }
+    a:hover { color: #7B6FEF !important; }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" src="components/Landing.jsx"></script>
+<script type="text/babel" src="components/Dashboard.jsx"></script>
+
+<script type="text/babel">
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "primaryColor": "#5B4FCF",
+  "accentColor": "#F97316",
+  "bgColor": "#08071A",
+  "darkMode": true,
+  "fontScale": 1
+}/*EDITMODE-END*/;
+
+const App = () => {
+  const [view, setView] = React.useState('landing'); // 'landing' | 'app'
+  const [tweaks, setTweaks] = React.useState(TWEAK_DEFAULTS);
+  const [tweakOpen, setTweakOpen] = React.useState(false);
+
+  // Tweaks panel messaging
+  React.useEffect(() => {
+    window.addEventListener('message', (e) => {
+      if (e.data?.type === '__activate_edit_mode') setTweakOpen(true);
+      if (e.data?.type === '__deactivate_edit_mode') setTweakOpen(false);
+    });
+    window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+  }, []);
+
+  const updateTweak = (key, value) => {
+    const next = { ...tweaks, [key]: value };
+    setTweaks(next);
+    window.parent.postMessage({ type: '__edit_mode_set_keys', edits: next }, '*');
+  };
+
+  // Inject CSS vars from tweaks
+  React.useEffect(() => {
+    document.documentElement.style.setProperty('--primary', tweaks.primaryColor);
+    document.documentElement.style.setProperty('--accent', tweaks.accentColor);
+  }, [tweaks]);
+
+  return (
+    <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: `${tweaks.fontScale * 16}px` }}>
+      {view === 'landing'
+        ? <Landing onEnterApp={() => setView('app')} />
+        : <Dashboard onBackToLanding={() => setView('landing')} />
+      }
+
+      {/* Tweaks Panel */}
+      {tweakOpen && (
+        <div style={{
+          position:'fixed', bottom:24, right:24, zIndex:9999,
+          background:'#0F0E26', border:'1px solid #1E1B42', borderRadius:16,
+          padding:24, width:280, boxShadow:'0 20px 60px rgba(0,0,0,0.6)'
+        }}>
+          <div style={{fontWeight:700,fontSize:14,marginBottom:20,color:'#F0EFFE',display:'flex',justifyContent:'space-between'}}>
+            Tweaks
+            <span style={{cursor:'pointer',color:'#4A4470'}} onClick={()=>setTweakOpen(false)}>✕</span>
+          </div>
+
+          <label style={twkLabel}>Colore Primario</label>
+          <div style={{display:'flex',gap:8,marginBottom:16,flexWrap:'wrap'}}>
+            {['#5B4FCF','#7B5CF5','#4338CA','#6D28D9','#0EA5E9'].map(c=>(
+              <div key={c} onClick={()=>updateTweak('primaryColor',c)}
+                style={{width:28,height:28,borderRadius:6,background:c,cursor:'pointer',border:tweaks.primaryColor===c?'2px solid white':'2px solid transparent'}}/>
+            ))}
+          </div>
+
+          <label style={twkLabel}>Colore Accento</label>
+          <div style={{display:'flex',gap:8,marginBottom:16,flexWrap:'wrap'}}>
+            {['#F97316','#EF4444','#10B981','#FBBF24','#EC4899'].map(c=>(
+              <div key={c} onClick={()=>updateTweak('accentColor',c)}
+                style={{width:28,height:28,borderRadius:6,background:c,cursor:'pointer',border:tweaks.accentColor===c?'2px solid white':'2px solid transparent'}}/>
+            ))}
+          </div>
+
+          <label style={twkLabel}>Scala testo</label>
+          <input type="range" min="0.85" max="1.2" step="0.05" value={tweaks.fontScale}
+            onChange={e=>updateTweak('fontScale',parseFloat(e.target.value))}
+            style={{width:'100%',marginBottom:16,accentColor:'#5B4FCF'}}
+          />
+
+          <label style={twkLabel}>Vista corrente</label>
+          <div style={{display:'flex',gap:8,marginBottom:4}}>
+            <button onClick={()=>{setView('landing');}}
+              style={{flex:1,padding:'8px',borderRadius:8,border:'1px solid #1E1B42',background:view==='landing'?'rgba(91,79,207,0.2)':'transparent',color:view==='landing'?'#C4BFFF':'#8880B0',cursor:'pointer',fontSize:12,fontWeight:600}}>
+              Landing
+            </button>
+            <button onClick={()=>setView('app')}
+              style={{flex:1,padding:'8px',borderRadius:8,border:'1px solid #1E1B42',background:view==='app'?'rgba(91,79,207,0.2)':'transparent',color:view==='app'?'#C4BFFF':'#8880B0',cursor:'pointer',fontSize:12,fontWeight:600}}>
+              Dashboard
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+const twkLabel = { display:'block', fontSize:11, fontWeight:600, color:'#8880B0', textTransform:'uppercase', letterSpacing:'0.08em', marginBottom:8 };
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
