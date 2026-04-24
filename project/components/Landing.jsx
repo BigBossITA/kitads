@@ -4,10 +4,10 @@ const Landing = ({ onEnterApp }) => {
   const [openFaq, setOpenFaq] = React.useState(null);
 
   const faqs = [
-  { q: "Come funziona KitAds?", a: "Carica le foto del tuo prodotto o incolla il link del tuo store. Scegli un avatar, descrivi la scena se vuoi, seleziona lo stile e clicca Genera. In pochi secondi hai video e grafiche pronti per la pubblicazione." },
+  { q: "Come funziona KitAds?", a: "Carica le foto del tuo prodotto o incolla il link del tuo store. Scegli un presentatore, descrivi la scena se vuoi, seleziona lo stile e clicca Genera. In pochi secondi hai video e grafiche pronti per la pubblicazione." },
   { q: "Devo avere competenze tecniche?", a: "No. KitAds è pensato per chi vende prodotti, non per chi conosce l'AI. Nessun prompt da scrivere, nessuno strumento da configurare." },
-  { q: "Quali formati ricevo?", a: "Reel verticale 9:16, TikTok Clip, Video Spot 16:9, Post Instagram, Story, Banner Feed, Post Square, Cover Facebook, Banner Wide. Tutti generati in automatico." },
-  { q: "Posso usare il mio avatar o la mia voce?", a: "Sì. Puoi scegliere un avatar dalla libreria o creare il tuo clone digitale. Puoi anche clonare la tua voce per rendere ogni contenuto autentico e disponibile in qualsiasi lingua." },
+  { q: "Quali formati ricevo?", a: "Reel verticale 9:16, TikTok Clip, Video spot 16:9, Post Instagram, Story, Banner Feed, Post quadrato, Cover Facebook, Banner orizzontale. Tutti generati in automatico." },
+  { q: "Posso usare il mio presentatore o la mia voce?", a: "Sì. Puoi scegliere un presentatore dalla libreria o creare il tuo clone digitale. Puoi anche clonare la tua voce per rendere ogni contenuto autentico e disponibile in qualsiasi lingua." },
   { q: "In quante lingue posso generare i contenuti?", a: "In qualsiasi lingua. KitAds genera contenuti multilingua senza bisogno di doppiaggio manuale." },
   { q: "C'è un piano gratuito?", a: "Sì. Puoi provare KitAds gratuitamente senza carta di credito e senza abbonamento." }];
 
@@ -46,7 +46,7 @@ const Landing = ({ onEnterApp }) => {
           <span style={landingStyles.heroSpan}>simple.</span>
         </h1>
         <p style={landingStyles.heroSub}>
-          Carica il tuo prodotto, scegli un avatar, genera video e grafiche pronti per TikTok, Instagram e Meta Ads. In pochi secondi, senza competenze tecniche.
+          Carica il tuo prodotto, scegli un presentatore, genera video e grafiche pronti per TikTok, Instagram e Meta Ads. In pochi secondi, senza competenze tecniche.
         </p>
         <div style={landingStyles.heroCtas}>
           <button style={{ ...landingStyles.ctaBtn, fontFamily: "Lato" }} onClick={onEnterApp}>Prova gratis</button>
@@ -128,7 +128,7 @@ const Landing = ({ onEnterApp }) => {
       <section id="scopri" style={landingStyles.section}>
         <div style={landingStyles.sectionLabel}>Il tuo prodotto ovunque, in ogni lingua.</div>
         <h2 style={landingStyles.sectionH2}>Basta immaginare. È il momento di generare.</h2>
-        <p style={landingStyles.sectionSub}>Scegli lo stile, seleziona l'avatar, descrivi la scena. KitAds genera tutto.</p>
+        <p style={landingStyles.sectionSub}>Scegli lo stile, seleziona il presentatore, descrivi la scena. KitAds genera tutto.</p>
 
         {/* Output grid */}
         <div style={landingStyles.outputGrid}>
@@ -180,9 +180,9 @@ const Landing = ({ onEnterApp }) => {
 
       {/* AVATAR SECTION */}
       <section style={landingStyles.section}>
-        <h2 style={landingStyles.sectionH2}>Avatar realistici parlanti</h2>
+        <h2 style={landingStyles.sectionH2}>Presentatori realistici parlanti</h2>
         <p style={landingStyles.sectionSub}>
-          Scegli un avatar dalla libreria o crea il tuo clone digitale. Parla in qualsiasi lingua, in qualsiasi stile.
+          Scegli un presentatore dalla libreria o crea il tuo clone digitale. Parla in qualsiasi lingua, in qualsiasi stile.
         </p>
         {/* Avatar grid placeholder */}
         <div style={landingStyles.avatarGrid}>
