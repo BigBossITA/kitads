@@ -346,6 +346,8 @@ const ProductModal = ({ onClose, onDone }) => {
 const ProcessingModal = ({ productData, onDone }) => {
   const [step, setStep] = React.useState(0);
   const [revealed, setRevealed] = React.useState({});
+  const [editMode, setEditMode] = React.useState(false);
+  const [draftText, setDraftText] = React.useState('');
 
   const EXTRACTED = {
     name: productData?.name || 'Bibita Energetica Volt',
@@ -364,7 +366,11 @@ const ProcessingModal = ({ productData, onDone }) => {
         return next;
       });
       i++;
-      if (i >= PROCESS_STEPS.length) {clearInterval(t);}
+      if (i >= PROCESS_STEPS.length) {
+        clearInterval(t);
+        const generated = `Scopri ${EXTRACTED.name}. ${EXTRACTED.copy.slice(0, 3).join(', ')}. ${EXTRACTED.copy.slice(3).join('. ')}. Provalo ora!`;
+        setDraftText(generated);
+      }
     }, 700);
     return () => clearInterval(t);
   }, []);
@@ -440,9 +446,30 @@ const ProcessingModal = ({ productData, onDone }) => {
         </div>
 
         {done &&
-        <button style={{ ...DS.primaryBtn, marginTop: 28, width: '100%', padding: '14px', fontSize: 15 }} onClick={onDone}>
-            Ottimo — scegli avatar e scena →
-          </button>
+        <div style={{ marginTop: 28, animation: 'fadeUp 0.4s ease both' }}>
+            <div style={{ fontSize: 13, color: '#8880B0', marginBottom: 10 }}>
+              Ho analizzato il tuo prodotto. Ecco il testo che ho preparato per te:
+            </div>
+            {!editMode ?
+            <div style={{ background: '#08071A', border: '1px solid #1E1B42', borderRadius: 12, padding: '14px 18px', fontSize: 14, color: '#F0EFFE', lineHeight: 1.75, marginBottom: 16 }}>
+                {draftText}
+              </div> :
+            <textarea
+                style={{ ...DS.textInput, width: '100%', minHeight: 96, resize: 'vertical', lineHeight: 1.75, marginBottom: 16 }}
+                value={draftText}
+                onChange={(e) => setDraftText(e.target.value)} />
+            }
+            <div style={{ display: 'flex', gap: 12 }}>
+              <button style={{ ...DS.primaryBtn, flex: 1, padding: '13px', fontSize: 14 }} onClick={() => onDone(draftText)}>
+                {editMode ? 'Conferma testo — continua →' : 'Sì, va bene — genera'}
+              </button>
+              {!editMode &&
+              <button style={{ ...DS.ghostBtn, flex: 1, padding: '13px', fontSize: 14 }} onClick={() => setEditMode(true)}>
+                  No, voglio modificarlo
+                </button>
+              }
+            </div>
+          </div>
         }
       </div>
     </div>);
@@ -775,7 +802,10 @@ const Dashboard = ({ onBackToLanding }) => {
     setModal('processing');
   };
 
-  const handleProcessingDone = () => setModal('avatar');
+  const handleProcessingDone = (draftText) => {
+    if (draftText) setBar((b) => ({ ...b, prompt: draftText }));
+    setModal('avatar');
+  };
 
   const handleAvatarDone = (avatarId, scene) => {
     setBar((b) => ({ ...b, avatarId, scene }));
